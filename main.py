@@ -66,17 +66,51 @@ def draw_dice() -> list:
     return dices
 
 
+def join_strings(*args):
+    return " ".join(args)
+
+
 def draw_dices(number: int) -> int:
     # Get dices and shuffle the list
-    dice_struct = draw_dice()
-    shuffle(dice_struct)
+    dice_list = draw_dice()
+    shuffle(dice_list)
 
     # Delete number of dices we dont need
     for _ in range(6 - number):
-        dice_struct.pop()
+        dice_list.pop()
 
-    for dice in dice_struct:
-        print(dice)
+    # Print random dices
+    first_line = ""
+    second_line = ""
+    third_line = ""
+    fourth_line = ""
+    fifth_line = ""
+    for dice in dice_list:
+        for i in range(len(dice)):
+            if i == 0:
+                first_line = first_line + " " + dice[i]
+            elif i == 1:
+                second_line = second_line + " " + dice[i]
+            elif i == 2:
+                third_line = third_line + " " + dice[i]
+            elif i == 3:
+                fourth_line = fourth_line + " " + dice[i]
+            elif i == 4:
+                fifth_line = fifth_line + " " + dice[i]
+
+    print(first_line)
+    print(second_line)
+    print(third_line)
+    print(fourth_line)
+    print(fifth_line)
+
+    # for dice in dice_list:
+    #     print(dice)
+
+    # print(dice_list[0])
+
+    # for dice in map(join_strings, dice_list[0]):
+    #     print(dice)
 
 
 def dices_rolled():
@@ -91,7 +125,7 @@ def dices_rolled():
 def main():
     ...
     # dices_to_roll = dices_rolled()
-    draw_dices(2)
+    draw_dices(3)
 
 
 if __name__ == "__main__":
