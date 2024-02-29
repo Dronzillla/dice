@@ -1,4 +1,44 @@
-def draw_dice(number: int) -> str:
+from functools import wraps
+from random import randint, shuffle
+
+
+# Data validation to get integers as arguments
+def positive_int(func: callable) -> callable:
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # Check if arguments are of type int
+        for arg in args:
+            if not isinstance(arg, int):
+                raise ValueError
+        for value in kwargs.values():
+            if not isinstance(value, int):
+                raise ValueError
+
+        result = func(*args, **kwargs)
+        return result
+
+    return wrapper
+
+
+def int_1_to_6(func: callable) -> callable:
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # Check if areguments are between 1 and 6
+        for arg in args:
+            if arg < 0 or arg > 6:
+                raise ValueError
+        for value in kwargs.values():
+            if value < 0 or arg > 6:
+                raise ValueError
+
+        result = func(*args, **kwargs)
+        return result
+
+    return wrapper
+
+
+@int_1_to_6
+def draw_dice() -> list:
     # Define building blocks of dices
     border = "+-------+"
     blank = "|       |"
@@ -8,19 +48,50 @@ def draw_dice(number: int) -> str:
     two_left_right = "| *   * |"
 
     # Define dices as strings as at them to a tuple
-    one = "\n".join([border, blank, one_middle, blank, border])
-    two = "\n".join([border, one_right, blank, one_left, border])
-    three = "\n".join([border, one_right, one_middle, one_left, border])
-    four = "\n".join([border, two_left_right, blank, two_left_right, border])
-    five = "\n".join([border, two_left_right, one_middle, two_left_right, border])
-    six = "\n".join([border, two_left_right, two_left_right, two_left_right, border])
-    dices = (one, two, three, four, five, six)
+    # one = "\n".join([border, blank, one_middle, blank, border])
+    # two = "\n".join([border, one_right, blank, one_left, border])
+    # three = "\n".join([border, one_right, one_middle, one_left, border])
+    # four = "\n".join([border, two_left_right, blank, two_left_right, border])
+    # five = "\n".join([border, two_left_right, one_middle, two_left_right, border])
+    # six = "\n".join([border, two_left_right, two_left_right, two_left_right, border])
 
-    return dices[number - 1]
+    one = (border, blank, one_middle, blank, border)
+    two = (border, one_right, blank, one_left, border)
+    three = (border, one_right, one_middle, one_left, border)
+    four = (border, two_left_right, blank, two_left_right, border)
+    five = (border, two_left_right, one_middle, two_left_right, border)
+    six = (border, two_left_right, two_left_right, two_left_right, border)
+    dices = [one, two, three, four, five, six]
+
+    return dices
+
+
+def draw_dices(number: int) -> int:
+    # Get dices and shuffle the list
+    dice_struct = draw_dice()
+    shuffle(dice_struct)
+
+    # Delete number of dices we dont need
+    for _ in range(6 - number):
+        dice_struct.pop()
+
+    for dice in dice_struct:
+        print(dice)
+
+
+def dices_rolled():
+    while True:
+        try:
+            user = int(input("How many dice do you want to roll? [1 - 6]"))
+        except ValueError:
+            print("Enter an integer")
+        return user
 
 
 def main():
-    print(draw_dice(2))
+    ...
+    # dices_to_roll = dices_rolled()
+    draw_dices(2)
 
 
 if __name__ == "__main__":
