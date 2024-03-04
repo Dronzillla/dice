@@ -17,8 +17,8 @@ def draw_dice() -> list:
     four = (border, two_left_right, blank, two_left_right, border)
     five = (border, two_left_right, one_middle, two_left_right, border)
     six = (border, two_left_right, two_left_right, two_left_right, border)
-    dices = [one, two, three, four, five, six]
 
+    dices = [one, two, three, four, five, six]
     return dices
 
 
@@ -65,7 +65,6 @@ def dices_rolled():
     while True:
         try:
             number = int(input("How many dice do you want to roll? [1 - 6]: "))
-            # Check if number is between 1 and 6
             if number < 1 or number > 6:
                 print("Error. Pick a number between 1 - 6. ")
                 continue
